@@ -1,0 +1,20 @@
+#gdates from the david walsh blog
+alias gdates="git for-each-ref --sort='-committerdate' --format='%(refname)%09%(committerdate)' refs/heads | sed -e 's-refs/heads/--'"
+alias gt="git status"
+alias gad="git add"
+alias gadl="git add . -A"
+alias gci="git commit -v"
+alias shipit="git push"
+alias glog="git log"
+alias gdif="git diff head"
+alias giton="git checkout"
+#alias gmaster="drake snd:master & git co master"
+alias gbr="git branch -a"
+alias grb="gbr"
+#alias gimme="git up"
+alias grab="git clone"
+alias gmaster="giton master && snd.master"
+alias whorules="git shortlog -s -n"
+
+#came up with this one after a few merge incidents, it finds the differences in merged branches betwen this branch and another branch
+gbc () { diff <(git branch -a --merged) <(git branch -a --merged "$@" ); } 
