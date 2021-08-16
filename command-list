@@ -17,8 +17,8 @@ alias grab="git clone"
 alias gmaster="giton master && snd.master"
 alias whorules="git shortlog -s -n"
 alias cleanup="git branch -d $(git branch --merged=master | grep -v master) && git fetch --prune"
-alias gcleanr='git branch -d $(git branch --merged=master | grep rdewind) && git fetch --prune'
-alias gcleani='git branch --merged=master | grep rdewind'
+alias gcleanr='git branch -d $(git branch --merged=master | grep -v master) && git fetch --prune'
+alias gcleani='git branch --merged=master | grep -v master'
 
 ####################### Paramaterized bash scripts #######################
 
