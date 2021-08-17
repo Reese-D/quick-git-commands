@@ -19,7 +19,12 @@ alias whorules="git shortlog -s -n"
 alias cleanup="git branch -d $(git branch --merged=master | grep -v master) && git fetch --prune"
 alias gcleanr='git branch -d $(git branch --merged=master | grep -v master) && git fetch --prune'
 alias gcleani='git branch --merged=master | grep -v master'
-
+alias gparent='git show-branch \
+| sed "s/].*//" \
+| grep "\*" \
+| grep -v "$(git rev-parse --abbrev-ref HEAD)" \
+| head -n1 \
+| sed "s/^.*\[//"'
 ####################### Paramaterized bash scripts #######################
 
 gnew () { git checkout master && git checkout -b "$@"; } #example usage: gcb feature/my-new-feature
