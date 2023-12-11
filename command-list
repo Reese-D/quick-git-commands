@@ -49,5 +49,10 @@ git log --diff-filter=D --summary | grep "delete mode" | cut -d' ' -f5-
 gnew () { git checkout master && git checkout -b "$@"; } #example usage: gcb feature/my-new-feature
 
 #came up with this one after a few merge incidents, it finds the differences in merged branches betwen this branch and another branch
-gbc () { diff <(git branch -a --merged) <(git branch -a --merged "$@" ); } 
+gbc () { diff <(git branch -a --merged) <(git branch -a --merged "$@" ); }
+
+## Find the difference between a base branch and a branch that has diverged from it.
+## Example: You create branch feature off of branch master, you make several commits on "feature" and merge "bugfix" into master.
+## using "giff master feature" will show you all of the changes that have been done on the feature branch since the original commit when it diverted from master, but won't include anything from bugfix.
+gdiff () { git diff $(git merge-base $1 $2) $2; }
 
