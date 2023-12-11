@@ -27,6 +27,25 @@ alias gparent='git show-branch \
 | sed "s/^.*\[//"'
 ####################### Paramaterized bash scripts #######################
 
+## Helps to find commits that have been deleted and can't be found with reflog (I.E these were deleted by azure devops or some other 3rd party merge tool)
+alias gFindUnreachable="git fsck --full --no-reflogs --unreachable --lost-found | grep commit | cut -d\  -f3 | xargs -n 1 git log -n 1 --pretty=oneline"
+
+## Uses rev-list to get a list of most recent commits in the reflog. Remember that reflog only searches LOCAL repository, if it's deleted remotely you'll need the above command not this one.
+## this is useful if you deleted a branch recently and want to undo that for some reason, you can search the tree visually and find the commit you wanted.
+## You can also use the regular git reflog command if you want to search without a graph
+alias gSearchTheDead="git log --graph --decorate $(git rev-list -g --all | uniq)"
+
+## git blame based on a partial name (I.E you know the name of the file but you don't know the full path to it)
+## example: gblame "MyFile.cpp"
+## compared to: git blame "/c/users/example/source/repos/foo/bar/baz/MyFile.cpp"
+gblame () { git blame $(find . -iname "$@"); }
+
+## Gets a list of all the commits that affected a given file
+gFileHistory () { git log --full-history -- $@; }
+
+## Get a list of all deleted files
+git log --diff-filter=D --summary | grep "delete mode" | cut -d' ' -f5-
+
 gnew () { git checkout master && git checkout -b "$@"; } #example usage: gcb feature/my-new-feature
 
 #came up with this one after a few merge incidents, it finds the differences in merged branches betwen this branch and another branch
